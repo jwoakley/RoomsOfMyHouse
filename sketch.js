@@ -29,48 +29,76 @@
 // variable that is a function 
 var drawFunction;
 
-// offset from bottom of screen
-var gTextOffset = 20;
-
 //instructions array
 var strings = [];
 var midX
 var startY;
 var lineHeight = 24;
 
-//line variables
+//'corner of room' line variables
 var xOne = 235;
 var yOne = 0;
 var xTwo = 235;
 var yTwo = 400;
 
-//variable for images
-var visualAssets = [];
+//image variables
+var livingRoomAssets = [];
+var kitchenAssets = [];
+var diningRoomAssets = [];
+var bedroomAssets = [];
+var bathroomAssets = [];
+var officeAssets = [];
+var dogAssets = [];
+
+var tileFloorX = 0;
+var tileFloorY = 381;
+
+//room title bounding box variables
+var xStartOne = 525;
+var yStartOne = 711;
+var xEndOne = 275;
+var yEndOne = 60;
+
+var boxStroke = 4;
+
+//room title variables
+var textXPos = ((800 - xStartOne)/ 2);
+var textYPos = ((800 - yStartOne)/ 2);
 
 //preload images in array
 function preload() {
-  visualAssets[0] = loadImage('assets/livingFloor.png');
-  visualAssets[1] = loadImage('assets/couch.png');
-  visualAssets[2] = loadImage('assets/kitchenFloor.png');
-  visualAssets[3] = loadImage('assets/stove.png');
-  visualAssets[4] = loadImage('assets/diningFloor.png');
-  visualAssets[5] = loadImage('assets/tableAndChair.png');
-  visualAssets[6] = loadImage('assets/bedFloor.png');
-  visualAssets[7] = loadImage('assets/bed.png');
-  visualAssets[8] = loadImage('assets/bathFloor.png');
-  visualAssets[9] = loadImage('assets/tub.png');
-  visualAssets[10] = loadImage('assets/blueberry.png');
-  visualAssets[11] = loadImage('assets/officeFloor.png');
-  visualAssets[12] = loadImage('assets/desk.png');
-}
+  //dog
+  dogAssets[0] = loadImage('assets/dog.png');
+  //livingroom images
+  livingRoomAssets[0] = loadImage('assets/livingFloor.png');
+  livingRoomAssets[1] = loadImage('assets/couch.png');
+  livingRoomAssets[2] = loadImage('assets/arcoLamp.png');
 
+ //kitchen images
+  kitchenAssets[0] = loadImage('assets/kitchenFloor.png');
+  kitchenAssets[1] = loadImage('assets/stove.png');
+  
+  //dining room images
+  diningRoomAssets[0] = loadImage('assets/diningFloor.png');
+  diningRoomAssets[1] = loadImage('assets/chairAndTables.png');
+  
+  //bedroom images
+  bedroomAssets[0] = loadImage('assets/bedFloor.png');
+  bedroomAssets[1] = loadImage('assets/bed.png');
+
+  //bathroom images
+  bathroomAssets[0] = loadImage('assets/bathFloor.png');
+  bathroomAssets[1] = loadImage('assets/bathroom.png');
+  bathroomAssets[2] = loadImage('assets/mirror.png');
+
+  //office images
+  officeAssets[0] = loadImage('assets/officeFloor.png');
+  officeAssets[1] = loadImage('assets/desk.png');
+}
 
 // Center drawing, drawFunction will be one for default
 function setup() {
   createCanvas(800, 800);
-
-  // Center our drawing objects
-  imageMode(CENTER);
   textAlign(CENTER);
   textSize(40);
 
@@ -78,74 +106,200 @@ function setup() {
   drawFunction = drawLivingRoom;
 }
 
-// Very simple, sets the background color and calls your state machine function
+//calls your state machine function
 function draw() {
-  // will call your state machine function
   drawFunction();
 }
 
-
 //========= TEMPLATE: modify these functions, INSIDE the function blocks only =========
 
-//draws images at index 0,1 from the array
+//draws images from livingRoomAssets array
 drawLivingRoom = function() {
-   background(210, 100, 38);
-   line(xOne, yOne, xTwo, yTwo);
-   image(visualAssets[0], width/2, height/2 + 200);
-   image(visualAssets[1], width/2, height/2);
+   let r = 210;
+   let g = 100;
+   let b = 38;
+
+   background(r, g, b);
+
+   //perspective line
+   stroke(2);
+   line(xOne, yOne, xTwo, yTwo);  
+
+   //images in array
+   image(livingRoomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
+   image(livingRoomAssets[1], 92, 305);  //couch
+   image(livingRoomAssets[2], 12, -114);  //lamp
+   image(dogAssets[0], 442, 361);  //dog
+   
+   //text bounding box
+   noStroke();
+   fill(r, g, b);
+   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+
+   //room title
    fill(255);
-   text("Living Room", width/2, height - gTextOffset);  
+   textLeading(10);
+   push();
+   translate(xStartOne, yStartOne);
+   text('living room', textXPos, textYPos);
+   pop();
+   
 }
 
-//draws images at index 2,3 from the array
+//draws images from kitchenAssets array
 drawKitchen = function() {
-   background(20, 210, 8);
-   line(xOne, yOne, xTwo, yTwo);
-   image(visualAssets[2], width/2, height/2 + 200);
-   image(visualAssets[3], width/2, height/2);
+   let r = 251;
+   let g = 196;
+   let b = 219;
+
+   background(r, g, b);
+
+    //perspective line
+   stroke(2);
+   line(xOne, yOne, xTwo, yTwo);  
+
+   //images in array
+   image(kitchenAssets[0], tileFloorX, tileFloorY);  //tiled floor png
+   image(dogAssets[0], 370, 305); //dog behind stove
+   image(kitchenAssets[1], 135, 117);  //stove
+   
+   //text bounding box
+   fill(r, g, b);
+   noStroke();
+   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+
+   //room title
    fill(255);
-   text("Kitchen", width/2, height - gTextOffset);  
+   textLeading(10);
+   push();
+   translate(xStartOne, yStartOne);
+   text('kitchen', textXPos, textYPos);
+   pop(); 
 }
 
-//draws images at index 4,5 from the array
+//draws images from diningRoomAssets array
 drawDiningRoom = function() {
-   background(20, 201, 150);
-   line(xOne, yOne, xTwo, yTwo);
-   image(visualAssets[4], width/2, height/2 + 200);
-   image(visualAssets[5], width/2, height/2);
+   let r = 20;
+   let g = 201;
+   let b = 150;
+
+   background(r, g, b);
+
+  //perspective line
+   stroke(2);
+   line(xOne, yOne, xTwo, yTwo);  
+
+   //images in array
+   image(diningRoomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
+   image(diningRoomAssets[1], 134, 257);  //table and chairs
+   image(dogAssets[0], 23, 575); //dog
+   
+   //text bounding box
+   fill(r, g, b);
+   noStroke();
+   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+
+   //room title
    fill(255);
-   text("Dining Room", width/2, height - gTextOffset);
+   textLeading(10);
+   push();
+   translate(xStartOne, yStartOne);
+   text('dining room', textXPos, textYPos);
+   pop(); 
 }
 
 //draws images at index 6,7 from the array
 drawBedroom = function() {
-   background(200, 21, 15);
-   line(xOne, yOne, xTwo, yTwo);
-   image(visualAssets[6], width/2, height/2 + 200);
-   image(visualAssets[7], width/2, height/2);
+   let r = 138;
+   let g = 147;
+   let b = 111;
+
+   background(r, g, b);
+
+  //perspective line
+   stroke(2);
+   line(xOne, yOne, xTwo, yTwo);  
+
+   //images in array
+   image(bedroomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
+   image(bedroomAssets[1], 65, 220);  //bed
+   image(dogAssets[0], 313, 438); //dog
+  
+   //text bounding box
+   fill(r, g, b);
+   noStroke();
+   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+
+   //room title
    fill(255);
-   text("Bed Room", width/2, height - gTextOffset);
+   textLeading(10);
+   push();
+   translate(xStartOne, yStartOne);
+   text('bedroom', textXPos, textYPos);
+   pop(); 
 }
 
 //draws images at index 8,9, 10 from the array
 drawBathroom = function() {
-   background(150, 201, 201);
-   line(xOne, yOne, xTwo, yTwo);
-   image(visualAssets[8], width/2, height/2 + 200);
-   image(visualAssets[9], width/2, height/2);
-   image(visualAssets[10], width/2, height/2);
+   let r = 150;
+   let g = 201;
+   let b = 201;
+
+   background(r, g, b);
+
+  //perspective line
+   stroke(2);
+   line(xOne, yOne, xTwo, yTwo);  
+
+   //images in array
+   image(bathroomAssets[0], tileFloorX, tileFloorY);   //tiled floor png
+   image(bathroomAssets[1], 99, 218);  //vanity
+   image(bathroomAssets[2], 146, 10);  //mirror
+   image(dogAssets[0], 195, 482);  //dog
+  
+   //text bounding box
+   fill(r, g, b);
+   noStroke();
+   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+
+   //room title
    fill(255);
-   text("Bath Room", width/2, height - gTextOffset);
+   textLeading(10);
+   push();
+   translate(xStartOne, yStartOne);
+   text('bathroom', textXPos, textYPos);
+   pop(); 
 }
 
 //draws images at index 11, 12 from the array
 drawOffice = function() {
-   background(200, 201, 150);
-   line(xOne, yOne, xTwo, yTwo);
-   image(visualAssets[11], width/2, height/2 + 200);
-   image(visualAssets[12], width/2, height/2);
+   let r = 100;
+   let g = 98;
+   let b = 98;
+
+   background(r, g, b);
+
+  //perspective line
+   stroke(2);
+   line(xOne, yOne, xTwo, yTwo);  
+
+   //images in array
+   image(officeAssets[0], tileFloorX, tileFloorY);  //tiled floor png
+   image(officeAssets[1], 100, 0);  //furniture
+   image(dogAssets[0], 236, 381);
+  
+   //text bounding box
+   fill(r, g, b);
+   noStroke();
+   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+
+   //room title
    fill(255);
-   text("Office", width/2, height - gTextOffset);
+   textLeading(10);
+   push();
+   translate(xStartOne, yStartOne);
+   text('office', textXPos, textYPos);
+   pop(); 
 }
 
 //========= TEMPLATE: add or change interface functions, as you like =========
