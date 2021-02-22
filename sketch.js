@@ -59,7 +59,7 @@ var xEndOne = 275;
 var yEndOne = 60;
 
 //room title variables
-var textXPos = ((80 - xStartOne)/ 2);
+var textXPos = ((800 - xStartOne)/ 2);
 var textYPos = ((800 - yStartOne)/ 2);
 
 //preload images in array
