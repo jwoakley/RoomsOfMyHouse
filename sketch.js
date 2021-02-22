@@ -77,11 +77,15 @@ function preload() {
   
   //dining room images
   diningRoomAssets[0] = loadImage('assets/diningFloor.png');
-  diningRoomAssets[1] = loadImage('assets/chairAndTables.png');
+  diningRoomAssets[1] = loadImage('assets/leftChair.png');
+  diningRoomAssets[2] = loadImage('assets/rightChair.png');
+  diningRoomAssets[3] = loadImage('assets/tulipTable.png');
   
   //bedroom images
   bedroomAssets[0] = loadImage('assets/bedFloor.png');
   bedroomAssets[1] = loadImage('assets/bed.png');
+  bedroomAssets[2] = loadImage('assets/bedroomLight.png');
+
 
   //bathroom images
   bathroomAssets[0] = loadImage('assets/bathFloor.png');
@@ -90,7 +94,9 @@ function preload() {
 
   //office images
   officeAssets[0] = loadImage('assets/officeFloor.png');
-  officeAssets[1] = loadImage('assets/desk.png');
+  officeAssets[1] = loadImage('assets/deskSolo.png');
+  officeAssets[2] = loadImage('assets/officeChair.png');
+  officeAssets[3] = loadImage('assets/officeLight.png');
 }
 
 // Center drawing, drawFunction will be one for default
@@ -188,7 +194,9 @@ drawDiningRoom = function() {
 
    //images in array
    image(diningRoomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
-   image(diningRoomAssets[1], 134, 257);  //table and chairs
+   image(diningRoomAssets[1], 102, 288);  //left chair
+   image(diningRoomAssets[2], 412, 290);  //right chair
+   image(diningRoomAssets[3], 161, 312);  //tulip table
    image(dogAssets[0], 23, 575); //dog
    
    //text bounding box
@@ -219,7 +227,8 @@ drawBedroom = function() {
 
    //images in array
    image(bedroomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
-   image(bedroomAssets[1], 65, 220);  //bed
+   image(bedroomAssets[1], 25, 244);  //bed
+   image(bedroomAssets[2], 105, 0);  //light
    image(dogAssets[0], 313, 438); //dog
   
    //text bounding box
@@ -282,7 +291,10 @@ drawOffice = function() {
 
    //images in array
    image(officeAssets[0], tileFloorX, tileFloorY);  //tiled floor png
-   image(officeAssets[1], 100, 0);  //furniture
+   image(officeAssets[1], 100, 400);  //desk
+   image(officeAssets[2], 186, 367);  //chair
+   image(officeAssets[3], 348, 0);  //light
+
    image(dogAssets[0], 236, 381);
   
    //text bounding box
