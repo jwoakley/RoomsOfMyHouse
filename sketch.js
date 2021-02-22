@@ -1,6 +1,6 @@
 /***********************************************************************************
   Rooms of a House Sample
-  by Scott Kildall
+  by Joshua Wilder Oakley
   Shows navigation structure using the keyboard between 4 rooms
   []
   Template:
@@ -12,8 +12,8 @@
   The way it works — you don't need to know this for the template use
   * array of images gets loaded at startup
   * drawFunction is a VARIABLE that points to a function varible name
-  * drawOne(), drawTwo(), etc. are set to be functions.
-  * the the keys 1-5 will change the drawFunction variable
+  * draw_blank_Room(s) are set to be the functions.
+  * the keys 'l, k, d, r, b, o' will change the drawFunction variable
 ------------------------------------------------------------------------------------
   Notes:
   - a more advanced state machine with use array-indexing for each of
@@ -23,8 +23,6 @@
   - next step after that would be to put interfaces into an array that maps to
     the functions
 ***********************************************************************************/
-
-
 
 // variable that is a function 
 var drawFunction;
@@ -50,6 +48,7 @@ var bathroomAssets = [];
 var officeAssets = [];
 var dogAssets = [];
 
+//tile floor placement variables
 var tileFloorX = 0;
 var tileFloorY = 381;
 
@@ -59,10 +58,8 @@ var yStartOne = 711;
 var xEndOne = 275;
 var yEndOne = 60;
 
-var boxStroke = 4;
-
 //room title variables
-var textXPos = ((800 - xStartOne)/ 2);
+var textXPos = ((80 - xStartOne)/ 2);
 var textYPos = ((800 - yStartOne)/ 2);
 
 //preload images in array
