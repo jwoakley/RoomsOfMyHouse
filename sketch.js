@@ -27,17 +27,15 @@
 // variable that is a function 
 var drawFunction;
 
-//instructions array
-var strings = [];
-var midX
-var startY;
-var lineHeight = 24;
+// rounded corner variable
+var crnr = 4;
 
 //'corner of room' line variables
 var xOne = 235;
 var yOne = 0;
 var xTwo = 235;
 var yTwo = 400;
+var strk = 2;
 
 //image variables
 var livingRoomAssets = [];
@@ -48,19 +46,48 @@ var bathroomAssets = [];
 var officeAssets = [];
 var dogAssets = [];
 
+//room color array
+var roomColors = [];
+
+//navigation instruction bar variables
+var xNav = 500;
+var yNav = 11;
+var hNav = 40;
+var wNav = 240;
+var navFill = 255;
+
+var navTextXPos = (xNav + (740 - xNav)/2);
+var navTextYPos = (yNav + (hNav/2) + 9);
+var navTextSize = 26;
+var strings = ['use keys to nav'];
+
+//bounding box navigation key  variables
+var bnd = 40;
+var xKyBnd = 749;  //postion 1 on bounding box
+var yKyBnd = 11;  //postion 1 on bounding box
+var bndSpcr = 51; //spacer between keys
+
+//navigation key placement variables
+var xKeyPlace = (xKyBnd + (789 - xKyBnd)/2);
+var yKeyPlace = (yKyBnd + (bnd/2) + 7);
+
+//navigation key array
+var navKey = [];
+
 //tile floor placement variables
 var tileFloorX = 0;
 var tileFloorY = 381;
 
 //room title bounding box variables
-var xStartOne = 525;
-var yStartOne = 711;
-var xEndOne = 275;
-var yEndOne = 60;
+var xStartOne = 604;
+var yStartOne = 543;
+var xEndOne = 185;
+var yEndOne = 40;
+var titleFill = 0;
 
 //room title variables
-var textXPos = ((800 - xStartOne)/ 2);
-var textYPos = ((800 - yStartOne)/ 2);
+var textXPos = (xStartOne + (789 - xStartOne)/2);
+var textYPos = (yStartOne + (yEndOne/2) + 9);
 
 //preload images in array
 function preload() {
@@ -103,10 +130,28 @@ function preload() {
 function setup() {
   createCanvas(800, 800);
   textAlign(CENTER);
-  textSize(40);
+  textSize(28);
+  noStroke();
+
+  //seting the room color array
+  roomColors[0] = color(210, 100, 38); //living room color
+  roomColors[1] = color(251, 196, 219); //kitchen color
+  roomColors[2] = color(20, 201, 150); //dining room color
+  roomColors[3] = color(138, 147, 111); //bedroom color
+  roomColors[4] = color(150, 201, 201); //bathroom color
+  roomColors[5] = color(100, 98, 98); //office  color
+
+  //setting the navigation key array
+  navKey[0] = ('[l]');
+  navKey[1] = ('[k]');
+  navKey[2] = ('[d]');
+  navKey[3] = ('[r]');
+  navKey[4] = ('[b]');
+  navKey[5] = ('[o]');
 
   // set to one for startup
   drawFunction = drawLivingRoom;
+
 }
 
 //calls your state machine function
@@ -118,15 +163,13 @@ function draw() {
 
 //draws images from livingRoomAssets array
 drawLivingRoom = function() {
-   let r = 210;
-   let g = 100;
-   let b = 38;
-
-   background(r, g, b);
+   background(roomColors[0]);
 
    //perspective line
-   stroke(2);
-   line(xOne, yOne, xTwo, yTwo);  
+   push();
+   stroke(strk);
+   line(xOne, yOne, xTwo, yTwo); 
+   pop(); 
 
    //images in array
    image(livingRoomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
@@ -135,31 +178,50 @@ drawLivingRoom = function() {
    image(dogAssets[0], 442, 361);  //dog
    
    //text bounding box
-   noStroke();
-   fill(r, g, b);
-   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+   fill(roomColors[0]);
+   rect(xStartOne, yStartOne, xEndOne, yEndOne, crnr);
 
    //room title
-   fill(255);
-   textLeading(10);
-   push();
-   translate(xStartOne, yStartOne);
-   text('living room', textXPos, textYPos);
-   pop();
-   
+   fill(titleFill);
+   text('[l]iving room', textXPos, textYPos); 
+
+   //nav keys
+   //bounding position one
+   fill(roomColors[1]);
+   rect(xKyBnd, yKyBnd, bnd, bnd, crnr);
+
+   //key text position one
+   fill(titleFill);
+   text(navKey[1], xKeyPlace, yKeyPlace);
+  
+  //bounding position two
+   fill(roomColors[3]);
+   rect(xKyBnd, yKyBnd + bndSpcr, bnd, bnd, crnr);
+
+   //key text position two
+   fill(titleFill);
+   text(navKey[2], xKeyPlace, yKeyPlace + bndSpcr);  
+
+   //navigation instruction bar
+   fill(navFill);
+   rect(xNav, yNav, wNav, hNav, crnr); 
+
+   //nav instruction text
+   fill(titleFill);
+   noStroke();
+   textSize(navTextSize);
+   text(strings[0], navTextXPos, navTextYPos);
 }
 
 //draws images from kitchenAssets array
 drawKitchen = function() {
-   let r = 251;
-   let g = 196;
-   let b = 219;
+  background(roomColors[1]);
 
-   background(r, g, b);
-
-    //perspective line
-   stroke(2);
-   line(xOne, yOne, xTwo, yTwo);  
+   //perspective line
+   push();
+   stroke(strk);
+   line(xOne, yOne, xTwo, yTwo); 
+   pop();   
 
    //images in array
    image(kitchenAssets[0], tileFloorX, tileFloorY);  //tiled floor png
@@ -167,30 +229,50 @@ drawKitchen = function() {
    image(kitchenAssets[1], 135, 117);  //stove
    
    //text bounding box
-   fill(r, g, b);
-   noStroke();
-   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+   fill(roomColors[1]);
+   rect(xStartOne, yStartOne, xEndOne, yEndOne, crnr);
 
    //room title
-   fill(255);
-   textLeading(10);
-   push();
-   translate(xStartOne, yStartOne);
-   text('kitchen', textXPos, textYPos);
-   pop(); 
+   fill(titleFill);
+   text('[k]itchen', textXPos, textYPos);
+
+   //nav keys
+   //bounding position one
+   fill(roomColors[0]);
+   rect(xKyBnd, yKyBnd, bnd, bnd, crnr);
+
+   //key text position one
+   fill(titleFill);
+   text(navKey[0], xKeyPlace, yKeyPlace); 
+  
+  //bounding position two
+   fill(roomColors[2]);
+   rect(xKyBnd, yKyBnd + bndSpcr, bnd, bnd, crnr);
+
+   //key text position two
+   fill(titleFill);
+   text(navKey[2], xKeyPlace, yKeyPlace + bndSpcr);
+
+   //navigation instruction bar
+   fill(navFill);
+   rect(xNav, yNav, wNav, hNav, crnr);
+
+   //nav instruction text
+   fill(titleFill);
+   noStroke();
+   textSize(navTextSize);
+   text(strings[0], navTextXPos, navTextYPos); 
 }
 
 //draws images from diningRoomAssets array
 drawDiningRoom = function() {
-   let r = 20;
-   let g = 201;
-   let b = 150;
+ background(roomColors[2]);
 
-   background(r, g, b);
-
-  //perspective line
-   stroke(2);
-   line(xOne, yOne, xTwo, yTwo);  
+   //perspective line
+   push();
+   stroke(strk);
+   line(xOne, yOne, xTwo, yTwo); 
+   pop();   
 
    //images in array
    image(diningRoomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
@@ -200,30 +282,66 @@ drawDiningRoom = function() {
    image(dogAssets[0], 23, 575); //dog
    
    //text bounding box
-   fill(r, g, b);
-   noStroke();
-   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+   fill(roomColors[2]);
+   rect(xStartOne, yStartOne, xEndOne, yEndOne, crnr);
 
    //room title
-   fill(255);
-   textLeading(10);
-   push();
-   translate(xStartOne, yStartOne);
-   text('dining room', textXPos, textYPos);
-   pop(); 
+   fill(titleFill);
+   text('[d]ining room', textXPos, textYPos);
+
+   //nav keys
+   //bounding position one
+   fill(roomColors[0]);
+   rect(xKyBnd, yKyBnd, bnd, bnd, crnr);
+
+   //key text position one
+   fill(titleFill);
+   text(navKey[0], xKeyPlace, yKeyPlace); 
+  
+   //bounding position two
+   fill(roomColors[1]);
+   rect(xKyBnd, yKyBnd + bndSpcr, bnd, bnd, crnr);
+
+   //key text position two
+   fill(titleFill);
+   text(navKey[1], xKeyPlace, yKeyPlace + bndSpcr);
+
+   //bounding position three
+   fill(roomColors[3]);
+   rect(xKyBnd, yKyBnd + (bndSpcr * 2), bnd, bnd, crnr); 
+
+   //key text position three
+   fill(titleFill);
+   text(navKey[3], xKeyPlace, yKeyPlace + (bndSpcr * 2));
+  
+   //bounding position four
+   fill(roomColors[5]);
+   rect(xKyBnd, yKyBnd + (bndSpcr * 3), bnd, bnd, crnr);
+
+   //key text position four
+   fill(titleFill);
+   text(navKey[5], xKeyPlace, yKeyPlace + (bndSpcr * 3)); 
+
+   //navigation instruction bar
+   fill(navFill);
+   rect(xNav, yNav, wNav, hNav, crnr);
+
+   //nav instruction text
+   fill(titleFill);
+   noStroke();
+   textSize(navTextSize);
+   text(strings[0], navTextXPos, navTextYPos); 
 }
 
 //draws images at index 6,7 from the array
 drawBedroom = function() {
-   let r = 138;
-   let g = 147;
-   let b = 111;
+ background(roomColors[3]);
 
-   background(r, g, b);
-
-  //perspective line
-   stroke(2);
-   line(xOne, yOne, xTwo, yTwo);  
+   //perspective line
+   push();
+   stroke(strk);
+   line(xOne, yOne, xTwo, yTwo); 
+   pop();   
 
    //images in array
    image(bedroomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
@@ -232,30 +350,50 @@ drawBedroom = function() {
    image(dogAssets[0], 313, 438); //dog
   
    //text bounding box
-   fill(r, g, b);
-   noStroke();
-   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+   fill(roomColors[3]);
+   rect(xStartOne, yStartOne, xEndOne, yEndOne, crnr);
 
    //room title
-   fill(255);
-   textLeading(10);
-   push();
-   translate(xStartOne, yStartOne);
-   text('bedroom', textXPos, textYPos);
-   pop(); 
+   fill(titleFill);
+   text('bed[r]oom', textXPos, textYPos);
+
+   //nav keys
+   //bounding position one
+   fill(roomColors[2]);
+   rect(xKyBnd, yKyBnd, bnd, bnd, crnr);
+
+   //key text position two
+   fill(titleFill);
+   text(navKey[2], xKeyPlace, yKeyPlace); 
+  
+   //bounding position two
+   fill(roomColors[4]);
+   rect(xKyBnd, yKyBnd + bndSpcr, bnd, bnd, crnr);
+
+   //key text position two
+   fill(titleFill);
+   text(navKey[4], xKeyPlace, yKeyPlace + bndSpcr); 
+
+   //navigation instruction bar
+   fill(navFill);
+   rect(xNav, yNav, wNav, hNav, crnr);
+
+   //nav instruction text
+   fill(titleFill);
+   noStroke();
+   textSize(navTextSize);
+   text(strings[0], navTextXPos, navTextYPos);
 }
 
 //draws images at index 8,9, 10 from the array
 drawBathroom = function() {
-   let r = 150;
-   let g = 201;
-   let b = 201;
+   background(roomColors[4]);
 
-   background(r, g, b);
-
-  //perspective line
-   stroke(2);
-   line(xOne, yOne, xTwo, yTwo);  
+   //perspective line
+   push();
+   stroke(strk);
+   line(xOne, yOne, xTwo, yTwo); 
+   pop();   
 
    //images in array
    image(bathroomAssets[0], tileFloorX, tileFloorY);   //tiled floor png
@@ -264,51 +402,76 @@ drawBathroom = function() {
    image(dogAssets[0], 195, 482);  //dog
   
    //text bounding box
-   fill(r, g, b);
-   noStroke();
-   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+   fill(roomColors[4]);
+   rect(xStartOne, yStartOne, xEndOne, yEndOne, crnr);
 
    //room title
-   fill(255);
-   textLeading(10);
-   push();
-   translate(xStartOne, yStartOne);
-   text('bathroom', textXPos, textYPos);
-   pop(); 
+   fill(titleFill);
+   text('[b]athroom', textXPos, textYPos);
+
+   //nav keys
+   //bounding position one
+   fill(roomColors[3]);
+   rect(xKyBnd, yKyBnd, bnd, bnd, crnr);
+
+   //key text position one
+   fill(titleFill);
+   text(navKey[3], xKeyPlace, yKeyPlace);
+
+   //navigation instruction bar
+   fill(navFill);
+   rect(xNav, yNav, wNav, hNav, crnr);
+
+   //nav instruction text
+   fill(titleFill);
+   noStroke();
+   textSize(navTextSize);
+   text(strings[0], navTextXPos, navTextYPos);  
 }
 
-//draws images at index 11, 12 from the array
+//draws images from the office array
 drawOffice = function() {
-   let r = 100;
-   let g = 98;
-   let b = 98;
+   background(roomColors[5]);
 
-   background(r, g, b);
-
-  //perspective line
-   stroke(2);
-   line(xOne, yOne, xTwo, yTwo);  
+   //perspective line
+   push();
+   stroke(strk);
+   line(xOne, yOne, xTwo, yTwo); 
+   pop();   
 
    //images in array
    image(officeAssets[0], tileFloorX, tileFloorY);  //tiled floor png
    image(officeAssets[1], 100, 400);  //desk
    image(officeAssets[2], 186, 367);  //chair
    image(officeAssets[3], 348, 0);  //light
-
-   image(dogAssets[0], 236, 381);
+   image(dogAssets[0], 236, 381); //dog
   
    //text bounding box
-   fill(r, g, b);
-   noStroke();
+   fill(roomColors[5]);
    rect(xStartOne, yStartOne, xEndOne, yEndOne);
 
    //room title
-   fill(255);
-   textLeading(10);
-   push();
-   translate(xStartOne, yStartOne);
-   text('office', textXPos, textYPos);
-   pop(); 
+   fill(titleFill);
+   text('[o]ffice', textXPos, textYPos);
+
+  //nav keys
+   //bounding position one
+   fill(roomColors[2]);
+   rect(xKyBnd, yKyBnd, bnd, bnd, crnr);
+
+   //key text position one
+   fill(titleFill);
+   text(navKey[1], xKeyPlace, yKeyPlace);  
+
+   //navigation instruction bar
+   fill(navFill);
+   rect(xNav, yNav, wNav, hNav, crnr);
+   
+   //nav instruction text
+   fill(titleFill);
+   noStroke();
+   textSize(navTextSize);
+   text(strings[0], navTextXPos, navTextYPos);
 }
 
 //========= TEMPLATE: add or change interface functions, as you like =========
