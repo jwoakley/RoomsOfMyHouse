@@ -448,7 +448,7 @@ drawOffice = function() {
   
    //text bounding box
    fill(roomColors[5]);
-   rect(xStartOne, yStartOne, xEndOne, yEndOne);
+   rect(xStartOne, yStartOne, xEndOne, yEndOne, crnr);
 
    //room title
    fill(titleFill);
@@ -466,7 +466,7 @@ drawOffice = function() {
    //navigation instruction bar
    fill(navFill);
    rect(xNav, yNav, wNav, hNav, crnr);
-   
+
    //nav instruction text
    fill(titleFill);
    noStroke();
