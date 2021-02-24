@@ -28,7 +28,7 @@
 var drawFunction;
 
 // rounded corner variable
-var crnr = 4;
+var crnr = 8;
 
 //'corner of room' line variables
 var xOne = 235;
@@ -46,6 +46,12 @@ var bathroomAssets = [];
 var officeAssets = [];
 var dogAssets = [];
 
+//furniture placement variables
+
+var couchX = 92;
+var couchY = 305;
+var lampX = 12;
+var lampY = -114;
 //room color array
 var roomColors = [];
 
@@ -93,6 +99,8 @@ var textYPos = (yStartOne + (yEndOne/2) + 9);
 function preload() {
   //dog
   dogAssets[0] = loadImage('assets/dog.png');
+  dogAssets[1] = loadImage('assets/hangingDog.png');
+
   //livingroom images
   livingRoomAssets[0] = loadImage('assets/livingFloor.png');
   livingRoomAssets[1] = loadImage('assets/couch.png');
@@ -101,6 +109,7 @@ function preload() {
  //kitchen images
   kitchenAssets[0] = loadImage('assets/kitchenFloor.png');
   kitchenAssets[1] = loadImage('assets/stove.png');
+  kitchenAssets[2] = loadImage('assets/fire.png');
   
   //dining room images
   diningRoomAssets[0] = loadImage('assets/diningFloor.png');
@@ -173,40 +182,40 @@ drawLivingRoom = function() {
 
    //images in array
    image(livingRoomAssets[0], tileFloorX, tileFloorY);  //tiled floor png
-   image(livingRoomAssets[1], 92, 305);  //couch
-   image(livingRoomAssets[2], 12, -114);  //lamp
+   image(livingRoomAssets[1], couchX, couchY);  //couch
+   image(livingRoomAssets[2], lampX, lampY);  //lamp
    image(dogAssets[0], 442, 361);  //dog
    
    //text bounding box
    fill(roomColors[0]);
    rect(xStartOne, yStartOne, xEndOne, yEndOne, crnr);
 
-   //room title
+  //  //room title
    fill(titleFill);
    text('[l]iving room', textXPos, textYPos); 
 
-   //nav keys
-   //bounding position one
+  //  //nav keys
+  //  //bounding position one
    fill(roomColors[1]);
    rect(xKyBnd, yKyBnd, bnd, bnd, crnr);
 
-   //key text position one
+  //  //key text position one
    fill(titleFill);
    text(navKey[1], xKeyPlace, yKeyPlace);
   
-  //bounding position two
+  // //bounding position two
    fill(roomColors[3]);
    rect(xKyBnd, yKyBnd + bndSpcr, bnd, bnd, crnr);
 
-   //key text position two
+  //  //key text position two
    fill(titleFill);
    text(navKey[2], xKeyPlace, yKeyPlace + bndSpcr);  
 
-   //navigation instruction bar
+  //  //navigation instruction bar
    fill(navFill);
    rect(xNav, yNav, wNav, hNav, crnr); 
 
-   //nav instruction text
+  //  //nav instruction text
    fill(titleFill);
    noStroke();
    textSize(navTextSize);
@@ -225,8 +234,9 @@ drawKitchen = function() {
 
    //images in array
    image(kitchenAssets[0], tileFloorX, tileFloorY);  //tiled floor png
-   image(dogAssets[0], 370, 305); //dog behind stove
+   image(dogAssets[1], 450, 100); //scred dog 
    image(kitchenAssets[1], 135, 117);  //stove
+   image(kitchenAssets[2], 55, 45);  //fire
    
    //text bounding box
    fill(roomColors[1]);
